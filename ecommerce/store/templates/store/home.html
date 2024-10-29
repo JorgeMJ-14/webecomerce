@@ -1,0 +1,11 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Página Principal{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Bienvenido a Nuestra Tienda</h1>
+    <p class="text-center">Aquí encontrarás una amplia variedad de productos a precios increíbles. ¡Explora y descubre nuestras ofertas!</p>
+    <div class="text-center">
+        <a class="btn btn-primary btn-lg" href="{% url 'product_list' %}">Ver Productos</a>
+    </div>
+{% endblock %}
