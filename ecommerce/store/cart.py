@@ -2,7 +2,7 @@ from django.conf import settings
 
 def get_cart(request):
     cart = request.session.get('cart', {})
-    return cart  # Debe devolver un diccionario con {product_id: quantity}
+    return cart  
 
 def add_to_cart(request, product_id, quantity):
     """Agrega un producto al carrito, sumando la cantidad si ya existe."""
