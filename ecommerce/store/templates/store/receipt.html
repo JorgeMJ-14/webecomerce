@@ -1,16 +1,58 @@
-<!-- templates/store/cart.html -->
-{% load custom_filters %}  <!-- Asegúrate de cargar tus filtros personalizados -->
+{% load custom_filters %}  
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Recibo de Compra</title>
+    <style>
+        /* Estilos CSS para mejorar la presentación en PDF */
+        body {
+            font-family: Arial, sans-serif; /* Fuente general */
+            margin: 20px; /* Margen general */
+        }
+        table {
+            width: 100%; /* Tabla al 100% del ancho */
+            border-collapse: collapse; /* Colapsar bordes */
+        }
+        th, td {
+            border: 1px solid #ddd; /* Bordes de celdas */
+            padding: 8px; /* Espaciado interno */
+            text-align: left; /* Alineación de texto */
+        }
+        th {
+            background-color: #f2f2f2; /* Color de fondo de los encabezados */
+        }
+        .text-right {
+            text-align: right; /* Alineación a la derecha */
+        }
+        .separator {
+            border-top: 1px solid #ddd; /* Línea separadora */
+            margin: 20px 0; /* Espacio alrededor de la línea */
+        }
+        .company-info, .thank-you {
+            text-align: center; /* Alineación al centro */
+            margin: 10px 0; /* Espaciado superior e inferior */
+        }
+        .thank-you {
+            font-size: 1.5em; /* Tamaño de fuente más grande para el agradecimiento */
+            font-weight: bold; /* Negrita */
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-4">
         <h1 class="mb-4 text-center">Recibo de Compra</h1>
+        
+        <!-- Información de la empresa -->
+        <div class="company-info">
+            <p>E-commerce</p>
+            <p>Teléfono: 36363636966</p>
+            <p>Correo: E-commerce@gmail.com</p>
+        </div>
+        
+        <div class="separator"></div> <!-- Línea separadora -->
+        
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -31,12 +73,15 @@
                 {% endfor %}
             </tbody>
         </table>
+        
         <div class="text-right">
             <h4>Total a Pagar: {{ total }} COP</h4>
         </div>
+
+        <!-- Mensaje de agradecimiento -->
+        <div class="thank-you">
+            <p>¡Gracias por su compra!</p>
+        </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

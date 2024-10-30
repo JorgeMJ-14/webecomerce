@@ -17,18 +17,28 @@
                         <div>
                             <p>Precio: {{ item.product.price|floatformat:2 }} COP</p>
                             <p>Total: {{ item.product.price|multiply:item.quantity|floatformat:2 }} COP</p>
+                            
+                            <!-- Botón para eliminar producto individual -->
+                            <form action="{% url 'remove_from_cart' item.product.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
                         </div>
                     </li>
                 {% endfor %}
             </ul>
 
             <h3 class="mt-3">Total: {{ total|floatformat:2 }} COP</h3>
-            
-            <a href="{% url 'simulate_purchase' %}" class="btn btn-success mt-3">Simular Compra</a>
+
+            <div class="cart-actions mt-3">
+                <a href="{% url 'simulate_purchase' %}" class="btn btn-success">Simular Compra</a>
+                <form action="{% url 'clear_cart' %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Limpiar Carrito</button>
+                </form>
+            </div>
         {% else %}
             <p>Tu carrito está vacío.</p>
         {% endif %}
-        
-        <a href="{% url 'clear_cart' %}" class="btn btn-danger mt-3">Limpiar Carrito</a>
     </div>
 {% endblock %}

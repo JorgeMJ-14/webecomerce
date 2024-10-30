@@ -1,0 +1,40 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Resultados de Búsqueda{% endblock %}
+
+{% block content %}
+    <h2 class="mt-4">Resultados de Búsqueda para "{{ query }}"</h2>
+
+    <div class="row">
+        {% if results %}
+            {% for product in results %}
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100">
+                        <!-- Imagen del producto -->
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                        
+                        <!-- Cuerpo de la tarjeta -->
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted">{{ product.description|truncatewords:10 }}</p>
+                            <p class="product-price font-weight-bold text-primary">${{ product.price }}</p>
+                        </div>
+                        
+                        <!-- Pie de la tarjeta -->
+                        <div class="card-footer bg-transparent">
+                            <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                                {% csrf_token %}
+                                <div class="input-group mb-3">
+                                    <input type="number" name="quantity" min="1" value="1" class="form-control" aria-label="Cantidad">
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-success btn-block">Agregar al Carrito</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No se encontraron productos que coincidan con tu búsqueda.</p>
+        {% endif %}
+    </div>
+{% endblock %}

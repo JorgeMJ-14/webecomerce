@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product
+from .models import Product,Category
 from .cart import add_to_cart, clear_cart, get_cart
 from django import forms
 from django.http import HttpResponse
@@ -9,8 +9,8 @@ from django.shortcuts import redirect
 
 # Vista de inicio que muestra los primeros 6 productos
 def home(request):
-    products = Product.objects.all()[:6]
-    return render(request, 'store/home.html', {'products': products})
+    categories = Category.objects.all()  # Incluye las categorías en el contexto
+    return render(request, 'store/home.html', {'categories': categories})
 
 # Formulario para agregar productos al carrito
 class AddToCartForm(forms.Form):
@@ -88,3 +88,26 @@ def clear_cart_view(request):
     """Vista para limpiar el carrito."""
     clear_cart(request)  # Llama a la función para limpiar el carrito
     return redirect('cart')  # Redirige al carrito
+
+def search(request):
+    query = request.GET.get('q')
+    results = []
+    if query:
+        results = Product.objects.filter(name__icontains=query)  # Filtra por nombre del producto
+
+    return render(request, 'store/search_results.html', {'results': results, 'query': query})
+
+def get_cart_count(request):
+    cart_count = request.session.get('cart_count', 0)  # Supongamos que mantienes el conteo en la sesión
+    return JsonResponse({'cart_count': cart_count})
+
+# store/views.py
+from django.shortcuts import redirect
+
+def remove_from_cart(request, product_id):
+    cart = request.session.get('cart', {})
+    if str(product_id) in cart:
+        del cart[str(product_id)]
+        request.session['cart'] = cart  # Actualizar el carrito en la sesión
+    return redirect('cart')  # Redirigir de nuevo a la página del carrito
+
